@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+  {% if category %}
+       {{category.desc|truncatewords:150}}
+   {% else %}
+       Welcome to prokart store
+   {% endif %}
+{% endblock %}
+
+{% block title %}
+   {% if category %}
+       {{category.name}}--PROKART
+   {% else %}
+       See our new collections
+   {% endif %}
+{% endblock %} <br>
+
+{% block content %}
+
+  {% if category %}
+     <div class="container">
+         <div class="row my_row_class">
+             <div class="mx_auto">
+             <p> <a href="{% url 'shopapp:allprodcat' %}"> All Products Collection </a> </p>
+         </div>
+         </div>
+     </div>
+  {% endif %}
+<div class="mx_auto"> <br>
+    {% if category %}
+    <img class="my_image" src="{{category.image.url}}" alt="category.name" width="400" height="400">
+</div><br>
+<div>
+    <h5 class="text-center my_title"> {{category.name}}</h5><br>
+    <p class="text-justify">{{category.desc}}</p>
+</div>
+    {% else %}
+      <div>
+       <img class="my_image my_image_padding" src="{% static 'img/banner.png' %}" alt="our products" width="100%" height="580">
+   </div><br>
+<div class="container">
+    <h4 class="text-center my_title"> Our product collections</h4>
+  <p class="text-justify">This carbonated citrus drink has been around since 1935, and it has exactly four products original, red-orange, light, and tropical.
+So, how does Orangina keep its product page both current and special?For one, it's fun to explore.
+When you hover your mouse over any of the blocks, the picture or icon animates the bottles dance
+around, the orange slices in half, and the thermometer drops. The animated images and bold colors
+fit in perfectly with the Orangina brand personality.Also, you might notice that some of the blocks are actual products, while others are simply tips and details about its products. If you don't have a lot of products to sell, consider interspersing them with tips and information about the products you do have available.</p>
+</div>
+
+{% endif %}
+<br>
+<div class="container">
+    <div class="row mx_auto">
+
+        {% for product in products.object_list %}
+
+               <div class="my_bottom_margin col-9 col-sm-6 col-md-4 xol-lg-4 ">
+              <div class="card text-center" style="min-width:18rem;">
+                  <a href="{{product.get_url}}"><img   src="{{product.image.url}}" alt="{{product.name}}" width="100%" height="180"></a>
+<br>                 <div class="card_body ">
+                     <h5> {{product.name}}</h5>
+                      <p>{{product.price}} ₹ </p>
+                 </div>
+              </div>
+
+          </div>
+        {% endfor %}<br> <br>
+          </div>
+    <div class="mx_auto">
+        {% if products.paginator.num_pages > 1 %}
+
+
+        <div class="text-center">
+            {% for pg in products.paginator.page_range %}
+              <a href="?page={{pg}}" class="btn btn-light btn-sm {% if products.number == pg %} active {% endif %} ">{{pg}}</a>
+         {% endfor %}
+        </div>
+ {% endif %}
+    </div>
+<br>
+
+    </div>
+
+
+
+{% endblock %}
+

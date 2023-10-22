@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+
+       Welcome to prokart store
+
+{% endblock %}
+{% block title %}
+  search
+{% endblock %}
+{% block content %}
+<div>
+    <p class="text-center my_search_text">You have searched for :<b> "{{query}}" </b></p>
+</div>
+
+<div class="row mx_auto">
+    {% for product in products %}
+               <div class="my_bottom_margin col-9 col-sm-6 col-md-4 xol-lg-4 ">
+              <div class="card text-center" style="min-width:18rem;">
+                  <a href="{{product.get_url}}"><img   src="{{product.image.url}}" alt="{{product.name}}" width="100%" height="150"></a>
+                 <div class="card_body ">
+                     <h5> {{product.name}}</h5>
+                      <p>{{product.price}} ₹ </p>
+                 </div>
+              </div>
+
+          </div>
+        {% empty %}
+       <div class="row mx_auto">
+        <p class="text-center search_text"> 0 results found </p>
+       </div>
+        {% endfor %}
+</div>
+
+{% endblock %}
